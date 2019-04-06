@@ -9,6 +9,7 @@ New features in this fork:
 - You can push any job in a queue
 - Jobs can ask to run one more time (try again)
 - You can specify how many jobs you wish to keep in "successful", "error", "failed" and "retry" dynamic queues. It allows you to monitor last jobs without consuming too much disk space or memory.
+- You can use a custom function to instance jobs (useful when working with a Container)
 
 Current implementations:
 

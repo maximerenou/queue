@@ -37,6 +37,11 @@ class QueueWorker
     protected $terminated;
 
     /**
+     * Callable
+     */
+    protected $instancier;
+
+    /**
      * QueueWorker constructor.
      * @param Queue $queue
      * @param int $maxIterations
@@ -70,6 +75,12 @@ class QueueWorker
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
+        return $this;
+    }
+
+    public function setInstancier($instancier)
+    {
+        $this->instancier = $instancier;
         return $this;
     }
 
@@ -148,18 +159,25 @@ class QueueWorker
             try {
                 $class = $job[0];
 
-                if (method_exists($class, '__construct'))
+                if (is_callable($this->instancier))
                 {
-                    $instance = call_user_func_array([$class, '__construct'], $job[1]);
+                    $instancier = $this->instancier;
+                    $instance = $instancier($class, $job[1]);
                 }
                 else {
-                    $instance = new $class();
+                    if (method_exists($class, '__construct'))
+                    {
+                        $instance = call_user_func_array([$class, '__construct'], $job[1]);
+                    }
+                    else {
+                        $instance = new $class();
+                    }
                 }
 
                 $status = $instance->execute();
                 $output = ob_get_contents();
             }
-            catch (\Exception $exception)
+            catch (\Throwable $exception)
             {
                 $status = Job::JOB_STATUS_FAILED;
                 $output = $exception->getMessage().PHP_EOL.ob_get_contents();
@@ -182,7 +200,7 @@ class QueueWorker
                 $this->queue->failed($job, $output);
             }
         }
-        catch (\Exception $exception)
+        catch (\Throwable $exception)
         {
             $this->log('error', 'Error performing job:'.$this->queue->toString($job).'. Message: '.$exception->getMessage());
             $this->queue->error($job, $exception->getMessage());
