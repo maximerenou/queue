@@ -35,6 +35,11 @@ class SqsQueue implements Queue {
         $this->setQueues($queueName);
     }
 
+    public function stop()
+    {
+        // TODO
+    }
+
     public function setVisibilityTimeout($visibilityTimeout) {
         $this->visibilityTimeout = $visibilityTimeout;
         return $this;
@@ -157,5 +162,16 @@ class SqsQueue implements Queue {
     {
         $this->sendMessage($this->sourceQueueUrl, [$job, $payload]);
         return 1;
+    }
+
+    /**
+     * Try again!
+     * @param array $job
+     * @param string|null $output
+     * @return void
+     */
+    public function retry($job, $output)
+    {
+        // TODO: Implement retry() method.
     }
 }

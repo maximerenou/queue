@@ -25,6 +25,13 @@ class RedisQueue implements Queue
 
     // Queue functions
 
+    public function stop()
+    {
+        $data = json_encode('STOP');
+        $this->redisClient->rpush($this->getSourceQueue(), [ $data ]);
+        return 1;
+    }
+
     public function push($job, $payload = [])
     {
         $data = $this->serialize([$job, $payload]);
@@ -147,11 +154,16 @@ class RedisQueue implements Queue
 
     public function serialize($data, $output = null)
     {
-        $json = [ $data[0], serialize($data[1]) ];
-        if (!is_null($output))
-        {
-            $json[] = time();
-            $json[] = $output;
+        if (is_array($data)) {
+            $json = [ $data[0], serialize($data[1]) ];
+            if (!is_null($output))
+            {
+                $json[] = time();
+                $json[] = $output;
+            }
+        }
+        else {
+            $json = $data;
         }
 
         return @json_encode($json);

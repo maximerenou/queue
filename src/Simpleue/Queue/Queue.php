@@ -7,6 +7,8 @@ namespace Simpleue\Queue;
 
 interface Queue
 {
+    public function stop();
+
     /**
      * Add job to queue
      * @param string $job Job class

@@ -138,7 +138,7 @@ class QueueWorker
                 break;
             }
             else {
-                $this->log('debug', 'Nothing to do.');
+                // $this->log('debug', 'Nothing to do.');
                 $this->queue->ping();
             }
         }

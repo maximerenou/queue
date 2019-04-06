@@ -45,6 +45,11 @@ class BeanStalkdQueue implements Queue
         return $this->beanStalkdClient->delete($job);
     }
 
+    public function stop()
+    {
+        // TODO
+    }
+
     /**
      * @param $job Job
      */
@@ -90,5 +95,16 @@ class BeanStalkdQueue implements Queue
     public function push($job, $payload = [])
     {
         return $this->beanStalkdClient->putInTube($this->sourceQueue, [$job, $payload]);
+    }
+
+    /**
+     * Try again!
+     * @param array $job
+     * @param string|null $output
+     * @return void
+     */
+    public function retry($job, $output)
+    {
+        // TODO: Implement retry() method.
     }
 }
