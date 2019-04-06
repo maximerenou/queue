@@ -12,6 +12,7 @@ $i = 0;
 
 while(true)
 {
+    var_dump('queues', $client->keys('*'));
     var_dump('source', $client->lrange($queue->getSourceQueue(), 0, -1));
     var_dump('processing', $client->lrange($queue->getProcessingQueue(), 0, -1));
     var_dump('retry', $client->lrange($queue->getRetryQueue(), 0, -1));

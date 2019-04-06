@@ -122,27 +122,27 @@ class RedisQueue implements Queue
 
     public function getProcessingQueue()
     {
-        return $this->sourceQueue . "-processing";
+        return $this->sourceQueue . ":processing";
     }
 
     public function getRetryQueue()
     {
-        return $this->sourceQueue . "-retry";
+        return $this->sourceQueue . ":retry";
     }
 
     public function getFailedQueue()
     {
-        return $this->sourceQueue . "-failed";
+        return $this->sourceQueue . ":failed";
     }
 
     public function getSuccessfulQueue()
     {
-        return $this->sourceQueue . "-success";
+        return $this->sourceQueue . ":success";
     }
 
     public function getErrorQueue()
     {
-        return $this->sourceQueue . "-error";
+        return $this->sourceQueue . ":error";
     }
 
     public function serialize($data, $output = null)
