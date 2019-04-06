@@ -4,6 +4,8 @@
  * Date: 10/05/15
  */
 
+// Notice: not tested with new queue system
+
 namespace Simpleue\Queue;
 
 use Aws\Sqs\Exception\SqsException;
@@ -86,7 +88,7 @@ class SqsQueue implements Queue {
         $this->locker = $locker;
     }
 
-    public function getNext() {
+    public function next() {
         $queueItem = $this->sqsClient->receiveMessage([
             'QueueUrl' => $this->sourceQueueUrl,
             'MaxNumberOfMessages' => 1,
@@ -138,7 +140,7 @@ class SqsQueue implements Queue {
         return;
     }
 
-    public function nothingToDo() {
+    public function ping() {
         return;
     }
 
@@ -147,15 +149,13 @@ class SqsQueue implements Queue {
         return;
     }
 
-    public function getMessageBody($job) {
-        return $job['Body'];
-    }
-
     public function toString($job) {
         return json_encode($job);
     }
 
-    public function sendJob($job) {
-        $this->sendMessage($this->sourceQueueUrl, $job);
+    public function push($job, $payload = [])
+    {
+        $this->sendMessage($this->sourceQueueUrl, [$job, $payload]);
+        return 1;
     }
 }

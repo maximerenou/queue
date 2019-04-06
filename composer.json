@@ -1,19 +1,24 @@
 {
-    "name": "javibravo/simpleue",
+    "name": "maximerenou/queue",
     "description": "Php package to manage queue tasks in a simple way",
     "keywords": ["queue", "task", "job", "redis", "sqs"],
-    "homepage": "http://github.com/javibravo/simpleue",
+    "homepage": "http://github.com/maximerenou/queue",
     "type": "library",
     "license": "MIT",
     "authors": [
-      {
-        "name": "Javier Bravo",
-        "email": "javibravo85@gmail.com"
-      }
+        {
+            "name": "Javier Bravo",
+            "email": "javibravo85@gmail.com"
+        },
+        {
+            "name": "Maxime Renou",
+            "email": "contact@maximerenou.fr"
+        }
     ],
     "require": {
         "php": ">=5.5",
-        "psr/log": "~1.0"
+        "psr/log": "~1.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {"Simpleue\\": "src/Simpleue"}

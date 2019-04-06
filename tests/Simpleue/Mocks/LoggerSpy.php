@@ -20,10 +20,12 @@ class LoggerSpy implements LoggerInterface {
 
     public function error($message, array $context = array()) {
         $this->errorMessages[] = $message;
+        echo $message;
     }
 
     public function debug($message, array $context = array()) {
         $this->debugMessages[] = $message;
+        echo $message;
     }
 
     public function emergency($message, array $context = array()) {}

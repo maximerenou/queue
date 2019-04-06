@@ -1,5 +1,7 @@
 <?php
 
+// Notice: not tested with new queue system
+
 namespace Simpleue\Queue;
 
 use Pheanstalk\Job;
@@ -32,7 +34,7 @@ class BeanStalkdQueue implements Queue
         $this->errorQueue = $queueName . '-error';
     }
 
-    public function getNext()
+    public function next()
     {
         $this->beanStalkdClient->watch($this->sourceQueue);
         return $this->beanStalkdClient->reserve(0);
@@ -45,27 +47,23 @@ class BeanStalkdQueue implements Queue
 
     /**
      * @param $job Job
-     * @return int
      */
     public function failed($job)
     {
         $this->beanStalkdClient->putInTube($this->failedQueue, $job->getData());
         $this->beanStalkdClient->delete($job);
-        return;
     }
 
     /**
      * @param $job Job
-     * @return int
      */
     public function error($job)
     {
         $this->beanStalkdClient->putInTube($this->errorQueue, $job->getData());
         $this->beanStalkdClient->delete($job);
-        return;
     }
 
-    public function nothingToDo()
+    public function ping()
     {
         return;
     }
@@ -79,26 +77,18 @@ class BeanStalkdQueue implements Queue
      * @param $job Job
      * @return string
      */
-    public function getMessageBody($job)
-    {
-        return $job->getData();
-    }
-
-    /**
-     * @param $job Job
-     * @return string
-     */
     public function toString($job)
     {
         return json_encode(['id' => $job->getId(), 'data' => $job->getData()]);
     }
 
     /**
-     * @param $job string
+     * @param string $job
+     * @param array $payload
      * @return int
      */
-    public function sendJob($job)
+    public function push($job, $payload = [])
     {
-        return $this->beanStalkdClient->putInTube($this->sourceQueue, $job);
+        return $this->beanStalkdClient->putInTube($this->sourceQueue, [$job, $payload]);
     }
 }
