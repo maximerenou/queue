@@ -1,8 +1,8 @@
 Queue
 ======================================
 
-[![Total Downloads](https://img.shields.io/packagist/dt/maximerenou/queue.svg)](https://packagist.org/packages/javibravo/simpleue)
-[![Latest Stable Version](https://img.shields.io/packagist/v/maximerenou/queue.svg)](https://packagist.org/packages/javibravo/simpleue)
+[![Total Downloads](https://img.shields.io/packagist/dt/maximerenou/queue.svg)](https://packagist.org/packages/maximerenou/queue)
+[![Latest Stable Version](https://img.shields.io/packagist/v/maximerenou/queue.svg)](https://packagist.org/packages/maximerenou/queue)
 
 New features in this fork:
 
